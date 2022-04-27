@@ -125,6 +125,32 @@ vector<PointCloud::Ptr> cloudPartitionate(PointCloud::Ptr cloud, int num_part) {
     return partitions;
 }
 
+void visualize(PointCloud::Ptr source, PointCloud::Ptr target, PointCloud::Ptr aux_cloud) {
+    int sizePoints = 2;
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("INPUTS"));
+    
+    viewer->setBackgroundColor(255, 255, 255);
+    viewer->addPointCloud(target, "target");
+    viewer->addPointCloud(source, "source");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 0, 255, 0, "source");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, sizePoints, "source");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 255, 0, 0,"target");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, sizePoints, "target");
+    
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_align(new pcl::visualization::PCLVisualizer("ALIGNED"));
+    
+    viewer_align->setBackgroundColor(255, 255, 255);
+    viewer_align->addPointCloud(target, "target");
+    viewer_align->addPointCloud(aux_cloud, "aligned");
+    viewer_align->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 0, 255, 0, "aligned");
+    viewer_align->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, sizePoints, "aligned");
+    viewer_align->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 0, 0, 255, "target");
+    viewer_align->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, sizePoints, "target");
+    
+    while (!viewer_align->wasStopped())
+        viewer_align->spinOnce();
+}
+
 int main (int argc, char** argv) {
     // Inicia cronômetro
     clock_t begin;
@@ -331,29 +357,8 @@ int main (int argc, char** argv) {
     cout << "Ration angle:  " << axis_angle << ":  " << endl;
     
     // Visualização
-    int sizePoints = 2;
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("INPUTS"));
-    
-    viewer->setBackgroundColor(255, 255, 255);
-    viewer->addPointCloud(target, "target");
-    viewer->addPointCloud(source, "source");
-    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 0, 255, 0, "source");
-    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, sizePoints, "source");
-    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 255, 0, 0,"target");
-    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, sizePoints, "target");
-    
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_align(new pcl::visualization::PCLVisualizer ("ALIGNED"));
-    
-    viewer_align->setBackgroundColor(255, 255, 255);
-    viewer_align->addPointCloud(target, "target");
-    viewer_align->addPointCloud(aux_cloud, "aligned");
-    viewer_align->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 0, 255, 0, "aligned");
-    viewer_align->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, sizePoints, "aligned");
-    viewer_align->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 0, 0, 255,"target");
-    viewer_align->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, sizePoints, "target");
-    
-    while(!viewer_align->wasStopped())
-        viewer_align->spinOnce();
+    // adicionar parâmetro de linha de comando que seta se quer ou não visualizar
+    //visualize(source, target, aux_cloud);
     
     return 0;
 }
