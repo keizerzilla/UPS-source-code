@@ -41,7 +41,7 @@ using namespace std;
 using std::vector;
 
 typedef pcl::search::KdTree<pcl::PointXYZ> SearchMethod;
-typedef PointCloud PointCloud;
+typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef enum{X, Y, Z} axis;
 
 bool compareX(pcl::PointXYZ p1, pcl::PointXYZ p2) {
@@ -68,7 +68,7 @@ double computeRMSE(PointCloud::ConstPtr target, PointCloud::ConstPtr source, dou
     int nr = 0;
     for (size_t i = 0; i < source->points.size (); ++i) {
         // Ignora pontos setados como NaN
-        if(!pcl_isfinite((*source)[i].x))
+        if(!isfinite((*source)[i].x))
             continue;
         
         // Procura o ponto mais próximo em target
