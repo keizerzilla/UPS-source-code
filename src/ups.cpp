@@ -7,8 +7,7 @@
  * arg[6]  = size_min
  * arg[7]  = size_max
  * arg[8]  = icp_it
- * arg[9]  = icp_stop
- * arg[10] = output_txt
+ * arg[9]  = output_txt
  */
 
 #define PI 3.14159265
