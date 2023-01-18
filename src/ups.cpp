@@ -1,13 +1,13 @@
 /**
- * arg[1]  = target cloud
- * arg[2]  = source cloud
- * arg[3]  = theta_x
- * arg[4]  = theta_y
- * arg[5]  = theta_z
- * arg[6]  = size_min
- * arg[7]  = size_max
- * arg[8]  = icp_it
- * arg[9]  = output_txt
+ * arg[1] = target cloud
+ * arg[2] = source cloud
+ * arg[3] = theta_x
+ * arg[4] = theta_y
+ * arg[5] = theta_z
+ * arg[6] = size_max
+ * arg[7] = size_min
+ * arg[8] = icp_it
+ * arg[9] = output_txt
  */
 
 #define PI 3.14159265
@@ -179,8 +179,9 @@ int main (int argc, char** argv) {
     
     // Load partitions size
     int maxCloudSize = target->width; // antes havia uma escolha entre src e tgt
-    int kmin = round(maxCloudSize / atof(argv[7]));
+    
     int kmax = round(maxCloudSize / atof(argv[6]));
+    int kmin = round(maxCloudSize / atof(argv[7]));
     
     cout << "k_min:  " << kmin << endl;
     cout << "k_max:  " << kmax << endl;
